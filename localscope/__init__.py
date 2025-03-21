@@ -137,6 +137,11 @@ def localscope(
     )
 
 
+_LocalscopeExceptionEntry = tuple[
+    str, str, types.CodeType, dis.Instruction, Optional[int]
+]
+
+
 class LocalscopeException(RuntimeError):
     """
     Raised when a callable tries to access non-local variables.
@@ -144,7 +149,7 @@ class LocalscopeException(RuntimeError):
 
     def __init__(
         self,
-        entries: tuple[str, str, types.CodeType, dis.Instruction, Optional[int]],
+        entries: List[_LocalscopeExceptionEntry],
     ) -> None:
         messages = []
         non_local_non_declared_vars = []
@@ -202,7 +207,7 @@ def _localscope(
     allowed: Set[str],
     allow_closure: bool,
     _globals: Dict[str, Any],
-    _errors: Optional[List[Any]] = None,
+    _errors: Optional[List[_LocalscopeExceptionEntry]] = None,
 ):
     """
     Args:

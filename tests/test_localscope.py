@@ -335,4 +335,3 @@ def test_reporting_multiple():
     assert "variable_two" in raised.value.vars
     assert "variable_three" in raised.value.vars
     assert "non_existant_global" in raised.value.vars
-    localscope(foo)
